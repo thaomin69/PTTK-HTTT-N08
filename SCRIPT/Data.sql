@@ -107,3 +107,7 @@ INSERT INTO NhanVien (MaNV, TenNV, GioiTinh, Email, SDT, DiaChi, MaPDP, MaHD, Ma
 VALUES ('NV001', N'Nguyễn Văn A', 'Nam', 'nvA@gmail.com', '0987654321', N'123 đường ABC, Quận 1, TP. HCM', NULL, 'HD001', 'PVC002', 'NV1');
 INSERT INTO NhanVien (MaNV, TenNV, GioiTinh, Email, SDT, DiaChi, MaPDP, MaHD, MaPVC, USERNAME)
 VALUES('NV002', N'Trần Thị B', 'Nu', 'ttb@gmail.com', '0123456789', N'456 đường XYZ, Quận 2, TP. HCM', 'PDP001', NULL, NULL, 'NV2');
+
+
+
+sssss
