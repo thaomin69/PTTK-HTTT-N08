@@ -9,14 +9,3 @@ BEGIN
     END IF;
 END;
 /
-
-
-CREATE OR REPLACE TRIGGER trig_test
-BEFORE INSERT OR UPDATE ON PhieuDatPhong
-FOR EACH ROW
-BEGIN
-    IF :NEW.SoTienDatCoc >= 0 THEN
-        :NEW.CheckDC := 2;
-    END IF;
-END;
-/
