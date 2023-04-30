@@ -1757,6 +1757,13 @@ input[type="date"] {
   font-weight: bold;
   color: #111111bd;
 }
+
+.form-group input[type=text] {
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: bold;
+  color: #111111bd;
+}
 .form-group input[type=email] {
   font-family: Arial;
   font-size: 14px;
@@ -1798,7 +1805,6 @@ input[type="date"] {
   padding-top:50px;
   padding-bottom:50px;
   box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);
-
 
 }
 .info-pay{
@@ -1843,4 +1849,116 @@ input[type="date"] {
 .block-wifi p{
   color: rgb(40, 115, 50);
   font-size:11px;
+}
+.btn-pay{
+  position: absolute;
+  background-color: rgb(58, 122, 224);
+  border:none;
+  margin-left:830px;
+  padding:15px 25px;
+  margin-top:398px;
+  z-index:1000;
+  color: #fff;
+
+}
+.box-pay{
+  height:262px;
+}
+.section-pay{
+  margin-top: -20px;
+}
+.btn-back-bk{
+  margin-top: 14px;
+  margin-left: -14px;
+  padding:10px 10px;
+  color: #3a3a3a;
+  border: 1px #6a6a6aa1 solid;
+}
+.btn-back-bk:hover{
+  color: #3a3a3a;
+  background-color: #bcbcbc41;
+}
+
+.overlay1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  background-color: #fff;
+  width: 250px;
+  height: 200px;
+  text-align: center;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.main-success1{
+  box-shadow: none;
+  border: 1px #babfc6c3 solid;
+  border-radius:10px;
+  margin-bottom:15px;
+ 
+}
+
+.main-success2{
+  box-shadow: none;
+  border: 1px #babfc6c3 solid;
+  border-radius:2px;
+  margin-bottom:20px;
+  border-top:10px #5b6134c9 solid;
+}
+
+.text-success1{
+  margin-top: -50px;
+  padding-top: 30px;
+  color:rgb(30, 120, 42);
+  font-size:19px;
+  font-weight:600;
+  border-radius:10px 10px 0 0;
+  background-color: #d8f5d5;
+}
+.main-success2 div 
+{
+  margin-top: -33px;
+}
+.main-success2 div p{
+  color: #000000c9;
+  font-weight:600;
+  margin-left:20px;
+  font-size:20px;
+
+}
+
+.main-success2 div li{
+  list-style: none;
+  margin-left: 20px;
+  margin-top: 15px;
+  color: #101010db;
+  font-size: 14px;
+ 
+}
+
+.main-success2 div li i{
+  color:rgb(26, 172, 91, 1)
 }

@@ -25,12 +25,12 @@
           {% for room in rooms %}
           <div class="col-md-6 col-lg-4 mb-5">
             <div class="hotel-room text-center">
-              <a href="#" class="d-block mb-0 thumbnail"><img src="{{room[6]}}" alt="Image" class="img-fluid"></a>
+              <a class="d-block mb-0 thumbnail"><img src="{{room[6]}}" alt="Image" class="img-fluid"></a>
               <div class="hotel-room-body">
                 <h3 class="heading mb-0"><a href="#">Phòng Số {{room[0]}}</a></h3>
                 <strong class="price">VND {{room[11]}} / đêm</strong>
               </div>
-              <a href="{{ url_for('booking')}}" class="btn btn-primary" style = "border-radius:0; margin-top:-20px; margin-bottom: 20px;">Đặt phòng</a>
+              <a href="{{ url_for('booking', RoomID = room[0] | b64encode) }}" class="btn btn-primary" style = "border-radius:0; margin-top:-20px; margin-bottom: 20px;">Đặt phòng</a>
             </div>
           </div>
           {% endfor %}

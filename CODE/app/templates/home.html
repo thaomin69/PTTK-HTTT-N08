@@ -50,12 +50,13 @@
       {% for room in typeroom %}
       <div class="col-md-6 col-lg-4 mb-5">
         <div class="hotel-room text-center">
-          <a href="{{ url_for('room_item', room_id=room[0] | b64encode) }}" class="d-block mb-0 thumbnail"><img src="{{room[3]}}" alt="Image" class="img-fluid"></a>
+          <a class="d-block mb-0 thumbnail"><img src="{{room[3]}}" alt="Image" class="img-fluid"></a>
           <div class="hotel-room-body">
             <h3 class="heading mb-0"><a href="#">{{ room[1] }}</a></h3>
             <strong class="price">VND {{room[4]| int}},000</strong>
           </div>
-          <a href="x"type="button" class="btn btn-primary"style = "border-radius:0;   border:1px #858585 solid; margin-bottom: 20px; background-color:#fff;color:#000000">Xem chi tiết</a>
+          <a type="button" class="btn btn-primary"style = "border-radius:0;   border:1px #858585 solid; margin-bottom: 20px; background-color:#fff;color:#000000">Xem chi tiết</a>
+          <a href="{{ url_for('room_item', TypeId=room[0] | b64encode) }}"  class="btn btn-primary" style = "border-radius:0; margin-bottom: 20px;">Xem phòng</a>
         </div>
       </div>
       {% endfor %}
@@ -80,7 +81,7 @@
           <p style="font-size:13px;"></p>
           <p style = 'color:rgb(225, 45, 45);margin-top:-18px;'>VND {{room[11]}}</p>
         </div> 
-        <a href="{{ url_for('booking')}}" class="btn btn-primary" style = "border-radius:0; margin-bottom: 20px;">Đặt phòng</a>
+        <a href="{{ url_for('booking', RoomID = room[0] | b64encode) }}"  class="btn btn-primary" style = "border-radius:0; margin-bottom: 20px;">Đặt phòng</a>
       </div>
       {% endfor %}
     </div>
@@ -181,12 +182,11 @@
   </div>
 </div>
 
-
 <div class="site-section block-15">
-  <div class="container">
+  <div class="container" >
     <div class="row">
       <div class="col-md-6 mx-auto text-center mb-5 section-heading">
-        <h2>Thông tin phòng</h2>
+        <h2 >Thông tin phòng</h2>
       </div>
     </div>
 

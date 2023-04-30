@@ -11,25 +11,38 @@
     </div>
   </div> 
 
-<div id="booking" class="section">
+<div id="booking" class="section" style="height:655px;">
     <div class="section-center">
         <div class="container">
             <div class="row">
                 <div class ="col-sm-8">
                     <div class="row main-booking">
+                        
                         <div class="booking-form">
-                            <form>
+                            {% if message %}
+                            <div class="alert alert-warning" role="alert">
+                              {{message}}
+                            </div>
+                            {% endif %}
+                
+                            <form method="POST">
                                 <div class="row no-margin">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <span class="form-label">Ngày đến</span>
-                                            <input class="form-control" type="date" required>
+                                            <input class="form-control" type="date" name = "date-start"> 
+                                            <div style = "margin-top:-16px;">
+                                                <hr style = " border-color: #dddee9">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <span class="form-label">Ngày đi</span>
-                                            <input class="form-control" type="date" required>
+                                            <input class="form-control" type="date" name = "date-end">
+                                            <div style = "margin-top:-16px;">
+                                                <hr style = " border-color: #dddee9">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -37,78 +50,76 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <span class="form-label">Số lượng người</span>
-                                            <select class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
+                                            <select class="form-control" name="count">
+                                                <option value = "1">1</option>
+                                                <option value = "2">2</option>
+                                                <option value = "3">3</option>
                                             </select>
+                                            <div style = "margin-top:-16px;">
+                                                <hr style = " border-color: #dddee9">
+                                            </div>
                                             <span class="select-arrow"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <span class="form-label">Email(không bắt buộc)</span>
-                                    <input class="form-control form-control-lg" type="email">
+                                    <span class="form-label">Họ và tên</span>
+                                    <input class="form-control form-control-lg" type="tel" value = "{{cus_info[1]}}" readonly>
+                                    <div style = "margin-top:-16px;">
+                                        <hr style = " border-color: #dddee9">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <span class="form-label">Nhập lại email</span>
-                                    <input class="form-control" type="email">
+                                    <span class="form-label">Email</span>
+                                    <input class="form-control" type="email" value = "{{cus_info[4]}}" readonly>
+                                    <div style = "margin-top:-16px;">
+                                        <hr style = " border-color: #dddee9">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Số điện thoại</span>
-                                    <input class="form-control" type="tel">
-                                </div>
-        
-                                <div class="row no-margin">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <span class="form-label">Phương thức thanh toán</span>
-                                            <select id="payment-method" class="form-control">
-                                                <option value="thenganhang" data-image="https://timo.vn/wp-content/uploads/card-1673581_1280-2.png">Thẻ Ngân Hàng</option>
-                                                <option value="momo" data-image="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Transparent.png">MoMo</option>
-                                                <option value="momo" data-image="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-ZaloPay-Square.png">Ví ZaloPay</option>
-                                            </select>
-                                            <span class="select-arrow"></span>
-                                            <div class="select-image"></div>
-                                        </div>
+                                    <input class="form-control" type="tel" value = "{{cus_info[3]}}" readonly>
+                                    <div style = "margin-top:-16px;">
+                                        <hr style = " border-color: #dddee9">
                                     </div>
                                 </div>
                                 <div style = "margin-top:-16px;">
                                     <hr style = " border-color: #dddee9">
                                 </div>
-                                
-                            </form>
-                            
+                                <button type="submit" class="btn btn-pay">Thanh toán ngay</button>
+                            </form>                         
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" style = "background-color: rgb(83, 146, 249);border:none;margin-left:180px;padding:15px 25px;margin-top:20px;">Thanh toán ngay</button>
+                    
                 </div>
-                <div class = "col-sm-4">
+                <div class = "col-sm-4" style="margin-top:-20px;">
                     <div class="row info-pay">
                         <div class="row">
                             <div class="col-sm-6">
-                                <img style = "max-width: 100%"src="https://cdn3.ivivu.com/2014/01/SUPER-DELUXE2.jpg" alt="">
+                                <img style = "max-width: 100%"src="{{room_item[6]}}" alt="">
                             </div>
 
                             <div class="col-sm-6 text-des">
-                              <div class="block-wifi"><p>Wi-Fi Miễn phí</p></div>
-                              <p style = "color: rgb(27, 27, 27); font-size:18px;">Phòng số</p>
-                              <p>sao</p>
-                              <p>mô tả</p> 
+                                <div class="block-wifi"><p>Wi-Fi Miễn phí</p></div>
+                                <p style = "color: rgb(27, 27, 27); font-size:18px;margin-bottom:-6px;">Phòng số {{room_item[0]}}</p>
+                                <span style="font-size:120%;color:#ff567d;">&starf;&starf;&starf;&starf;&star;</span>
+                                <p style="margin-bottom:-1px;">Tiện nghi:</p>
+                                {% for i in tiennghi %}
+                                    <li style="margin-left:20px;">{{i}}</li>
+                                {% endfor %}
+                        
                             </div>
 
                         </div>
 
                     </div>
                     <div class="row info-pay" style = "margin-top:20px;">
-                        <h1>Giá tiền (1 phòng x 1 đêm):</h1>
-                        <h1>Đặt cọc: </h1>
-                        <h1>Số tiền còn lại:</h1>
-                        <h1>Giá đã bao gồm: Thuế 10%, Phí dịch vụ 5%</h1>
-                        <hr>
-                        <h1 style = "font-family: inherit;color: #252525;font-size:20px;">Tổng giá phải thanh toán </h1>
-                                                
+                        <h1>Giá tiền (1 phòng x 1 đêm):<span style="padding-right: 130px;"></span> <span style = "color: rgb(255, 0, 0);">{{Gia}}</span></h1>
+                        <h1>Đặt cọc: <span style="padding-right: 240px;"></span> <span style = "color: rgb(255, 0, 0);">{{GiaDC}}</span></h1>
+                        <h1>Số tiền còn lại: <span style="padding-right: 203px;"></span> <span style = "color: rgb(255, 0, 0);">{{GiaCL}}</span></h1>
+                        <h1>Giá đã bao gồm: Thuế <span style ="color: rgb(255, 0, 0);">10%</span>, Phí dịch vụ <span style ="color: rgb(255, 0, 0);">5%</span></h1>
                     </div>
+                    
                 </div>
             </div>
             
