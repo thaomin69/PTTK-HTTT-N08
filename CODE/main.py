@@ -3,6 +3,7 @@ from app.views import app
 import cx_Oracle
 
 def main():
+
     lib_dir = r"D:\Download\instantclient-basic-windows.x64-21.9.0.0.0dbru\instantclient_21_9"
     # lib_dir = "C:\oclient\instantclient-basic-windows.x64-21.9.0.0.0dbru\instantclient_21_9"
     global oracle_client_initialized
@@ -14,6 +15,7 @@ def main():
         except Exception as err:
             print("Error initializing Oracle Client:", err)
             sys.exit(1)
+
 
     app.run(debug=True)
 
