@@ -50,18 +50,26 @@
         <div class="col-md-12 text-center">
           <div class="site-block-27">
             <ul>
-              <li><a href="#">&lt;</a></li>
-              <li class="active"><span>1</span></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">&gt;</a></li>
+              {% if currentPage > 1 %}
+                <li><a href="{{ url_for('rooms', page=currentPage-1) }}">&lt;</a></li>
+              {% endif %}
+                {% for i in range(0,(size)) %}
+                    {% if i+1 == currentPage %}
+                   <li class="active"><a href="{{ url_for('rooms', page=i+1) }}">{{i+1}}</a></li>
+                     {% else %}
+                  <li><a href="{{ url_for('rooms', page=i+1) }}">{{i+1}}</a></li>
+                   {% endif %}
+                {% endfor %}
+              {% if currentPage < size %}
+                <li><a href="{{ url_for('rooms', page=currentPage+1) }}">&gt;</a></li>
+              {% endif %}
             </ul>
           </div>
         </div>
       </div>
+      
     </div>
   </div>
   {% endblock %}
+  
 </div>

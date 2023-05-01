@@ -4,6 +4,9 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import base64
 from datetime import datetime
 import re
+from flask_paginate import Pagination, get_page_parameter
+
+import math
 
 import qrcode
 from io import BytesIO
@@ -39,8 +42,21 @@ def home():
 @app.route('/rooms')
 def rooms():
     controller = Phong_controller
-    room = controller.get_room()
-    return render_template('rooms.html', rooms = room)
+    page = request.args.get('page', default=1, type=int)
+    print(page)
+    rooms = controller.get_room(page=page, per_page=6)
+    size =controller.get_Allroom()
+    # pagination = rooms.paginate(page=page, per_page=per_page)
+
+    return render_template('rooms.html', rooms=rooms, pagination=6,size=math.ceil(len(size)/6),currentPage=page )
+# @app.route('/rooms')
+# def rooms():
+#     controller = Phong_controller
+#     page = request.args.get('page', default=1, type=int)
+#     per_page = request.args.get('per_page', default=6, type=int)
+#     rooms = controller.get_room(page, per_page)
+#     return render_template('rooms.html', rooms=rooms)
+
 
 @app.route('/events')
 def events():

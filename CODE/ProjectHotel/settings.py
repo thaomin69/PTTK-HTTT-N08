@@ -2,6 +2,9 @@ import sys
 import cx_Oracle
 
 def execute_query(username, password, queryString):
+    print(username)
+    print(password)
+    print(queryString)
     try:
         con = cx_Oracle.connect(username, password, 'localhost:1521/XE')   #XEPDB1
 

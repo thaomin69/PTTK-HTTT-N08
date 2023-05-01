@@ -59,7 +59,7 @@ BEGIN
       EXECUTE IMMEDIATE 'DROP TABLE NhanVien';
    END IF;
 END;
-
+/
 
 CREATE TABLE DoiTac (
     MaDT VARCHAR(10) PRIMARY KEY,
@@ -67,6 +67,7 @@ CREATE TABLE DoiTac (
     SDT VARCHAR(13),
     MaTour VARCHAR(10)
 );
+/
 
 CREATE TABLE TourDuLich (
     MaTour VARCHAR(10) PRIMARY KEY,
@@ -78,12 +79,14 @@ CREATE TABLE TourDuLich (
     MaDT VARCHAR(10),
     FOREIGN KEY (MaDT) REFERENCES DoiTac(MaDT)
 );
+/
 
 CREATE TABLE TaiKhoan (
     Username VARCHAR(50) PRIMARY KEY,
     Password VARCHAR(50),
     Type INT
 );
+/
 
 CREATE TABLE KhachHang (
     CMND VARCHAR(20) PRIMARY KEY,
@@ -97,6 +100,7 @@ CREATE TABLE KhachHang (
     USERNAME VARCHAR(50) NOT NULL,
     FOREIGN KEY (USERNAME) REFERENCES TAIKHOAN(USERNAME)
 );
+/
 
 CREATE TABLE HanhLy (
     MaHL VARCHAR(10) PRIMARY KEY,
@@ -105,6 +109,7 @@ CREATE TABLE HanhLy (
     MaKH VARCHAR(20),
     FOREIGN KEY (MaKH) REFERENCES KhachHang(CMND)
 );
+/
 
 CREATE TABLE DK_TourDuLich (
     MaDKTDL VARCHAR(10) PRIMARY KEY,
@@ -115,7 +120,7 @@ CREATE TABLE DK_TourDuLich (
     FOREIGN KEY (MaTour) REFERENCES TourDuLich(MaTour),
     FOREIGN KEY (CMND) REFERENCES KHACHHANG(CMND)
 );
-
+/
 
 CREATE TABLE LoaiPhong (
     MaLoaiPhong VARCHAR(10) PRIMARY KEY,
@@ -124,7 +129,7 @@ CREATE TABLE LoaiPhong (
     image VARCHAR(200),
     Gia Float
 );
-
+/
 
 CREATE TABLE Phong (
     MaPhong VARCHAR(10) PRIMARY KEY,
@@ -135,11 +140,13 @@ CREATE TABLE Phong (
     LoaiP VARCHAR(10) NOT NULL,
     FOREIGN KEY (LoaiP) REFERENCES LoaiPhong(MaLoaiPhong)
 );
+/
 
 create table thongtinthanhtoan(
     MaTT VARCHAR(10) PRIMARY KEY,
     LOAITHANHTOAN NUMBER(3)
 );
+/
 
 CREATE TABLE PhieuDatPhong (
     MaPDP VARCHAR(10) PRIMARY KEY,
@@ -156,6 +163,7 @@ CREATE TABLE PhieuDatPhong (
     FOREIGN KEY (MaKH) REFERENCES KHACHHANG(CMND),
     FOREIGN KEY (MaTT) REFERENCES thongtinthanhtoan(MaTT)
 );
+/
 
 create table thenganhang(
     MAPAY VARCHAR2(10) NOT NULL,
@@ -164,18 +172,21 @@ create table thenganhang(
     CVC VARCHAR2(3),  
     MATT VARCHAR2(10) NOT NULL
 );
+/
 
 create table momo(
     MAMOMO VARCHAR2(10) NOT NULL,
     SODIENTHOAI VARCHAR2(14),
     MATT VARCHAR2(10) NOT NULL 
 );
+/
 
 create table zalo(
     MAZALO VARCHAR2(10) NOT NULL ,
     SODIENTHOAI VARCHAR2(14),
     MATT VARCHAR2(10) NOT NULL  
-)
+);
+/
 
 CREATE TABLE DichVu (
     MaDV VARCHAR(10) PRIMARY KEY,
@@ -184,6 +195,7 @@ CREATE TABLE DichVu (
     GiaDV FLOAT,
     image VARCHAR(200)
 );
+/
 
 CREATE TABLE DK_Dich_Vu (
     MaDKDV VARCHAR(10) PRIMARY KEY,
@@ -192,6 +204,7 @@ CREATE TABLE DK_Dich_Vu (
     FOREIGN KEY (MaKH) REFERENCES KhachHang(CMND),
     FOREIGN KEY (MaDV) REFERENCES DichVu(MaDV)
 );
+/
 
 CREATE TABLE HoaDonTong (
     MaHD VARCHAR(10) PRIMARY KEY,
@@ -206,6 +219,7 @@ CREATE TABLE HoaDonTong (
     --FOREIGN KEY (MaDKTDL) REFERENCES DK_TourDuLich(MaDKTDL)
     FOREIGN KEY (MaKH) REFERENCES KhachHang(CMND)
 );
+/
 
 CREATE TABLE PhieuVanChuyenHanhLy (
     MaPVC VARCHAR(10) PRIMARY KEY,
@@ -214,6 +228,7 @@ CREATE TABLE PhieuVanChuyenHanhLy (
     MaHL VARCHAR(10),
     FOREIGN KEY (MaHL) REFERENCES HanhLy(MaHL)
 );
+/
 
 CREATE TABLE NhanVien (
     MaNV VARCHAR(10) PRIMARY KEY,
@@ -231,14 +246,11 @@ CREATE TABLE NhanVien (
     FOREIGN KEY (MaPVC) REFERENCES PhieuVanChuyenHanhLy(MaPVC),
     FOREIGN KEY (USERNAME) REFERENCES TAIKHOAN(USERNAME)
 ); 
-
+/
 
 ALTER TABLE NhanVien ADD CONSTRAINT RB_GioiTinh CHECK (GioiTinh IN ('Nam', 'Nu'));
 ALTER TABLE TaiKhoan ADD CONSTRAINT RB_Type CHECK (Type IN (1, 2, 3));
+/
 
-ALTER TABLE phieudatphong ADD MaTT VARCHAR(10);
-
-select * from khachhang;
-
-
+commit;
 
