@@ -136,20 +136,46 @@ CREATE TABLE Phong (
     FOREIGN KEY (LoaiP) REFERENCES LoaiPhong(MaLoaiPhong)
 );
 
+create table thongtinthanhtoan(
+    MaTT VARCHAR(10) PRIMARY KEY,
+    LOAITHANHTOAN NUMBER(3)
+);
+
 CREATE TABLE PhieuDatPhong (
     MaPDP VARCHAR(10) PRIMARY KEY,
     NgayDen DATE,
     SoDemLuTru INT,
     YeuCauDacBiet NVARCHAR2(100),
-    PhuongThucThanhToan NUMBER(1),
     SoLuongNguoi INT,
     SoTienDatCoc FLOAT,
     CheckDC NUMBER(1) DEFAULT 0,
     MaPhong VARCHAR(10)NOT NULL,
     MaKH VARCHAR(20) NOT NULL,
+    MaTT VARCHAR(10),
     FOREIGN KEY (MaPhong) REFERENCES Phong(MaPhong),
-    FOREIGN KEY (MaKH) REFERENCES KHACHHANG(CMND)
+    FOREIGN KEY (MaKH) REFERENCES KHACHHANG(CMND),
+    FOREIGN KEY (MaTT) REFERENCES thongtinthanhtoan(MaTT)
 );
+
+create table thenganhang(
+    MAPAY VARCHAR2(10) NOT NULL,
+    SOTHE VARCHAR2(20), 
+    NGAYHETHAN DATE,         
+    CVC VARCHAR2(3),  
+    MATT VARCHAR2(10) NOT NULL
+);
+
+create table momo(
+    MAMOMO VARCHAR2(10) NOT NULL,
+    SODIENTHOAI VARCHAR2(14),
+    MATT VARCHAR2(10) NOT NULL 
+);
+
+create table zalo(
+    MAZALO VARCHAR2(10) NOT NULL ,
+    SODIENTHOAI VARCHAR2(14),
+    MATT VARCHAR2(10) NOT NULL  
+)
 
 CREATE TABLE DichVu (
     MaDV VARCHAR(10) PRIMARY KEY,
@@ -210,7 +236,9 @@ CREATE TABLE NhanVien (
 ALTER TABLE NhanVien ADD CONSTRAINT RB_GioiTinh CHECK (GioiTinh IN ('Nam', 'Nu'));
 ALTER TABLE TaiKhoan ADD CONSTRAINT RB_Type CHECK (Type IN (1, 2, 3));
 
+ALTER TABLE phieudatphong ADD MaTT VARCHAR(10);
 
+select * from khachhang;
 
 
 

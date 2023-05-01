@@ -157,7 +157,7 @@ def booking():
     Gia = "{:,.0f} đ".format(float(room[11])*1000)
     GiaDC = "{:,.0f} đ".format(float(room[11] * 0.3)*1000)
     GiaCL = "{:,.0f} đ".format(float(room[11] * 0.7)*1000)
-
+    
  
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -380,10 +380,10 @@ def process_pay():
         else:
             mapdp = '098' + str(countpdp + 1)     
 
-
+    datestart = "TO_DATE('"+data['date-start'] + "', 'DD/MM/YYYY')"
     tiendc = int(room[11] * data['count-date'] * 0.3)
-    result3, er3 = bookingcontroller.save_booking(mapdp, data['date-start'], data['count-date'], data['count'], tiendc, room[0], cus_id, matt)
-
+    result3, er3 = bookingcontroller.save_booking(mapdp, datestart, data['count-date'], data['count'], tiendc, room[0], cus_id, matt)
+    
     if er3 == 0:
         return render_template('success.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaCL = GiaCL, mapdp = mapdp, GiaDC = GiaDC, Tonggia = Tonggia)
         
