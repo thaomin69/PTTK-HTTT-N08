@@ -1,4 +1,4 @@
-from app.controller import Phong_controller, tour_controller, login_controller, signup_controller, booking_controller, admin_controller
+from app.controller import Phong_controller, tour_controller, login_controller, signup_controller, booking_controller, admin_controller, profile_controller
 from flask import Flask, render_template, request, redirect, url_for, session
 # from flask_login import login_required, LoginManager, UserMixin, login_user
 import base64
@@ -28,23 +28,25 @@ app.jinja_env.filters['b64encode'] = base64encode
 
 @app.route('/home')
 def home():
-    controller = Phong_controller
+    controller = Phong_controller()
 
     typeroom = controller.get_typeroom()
     service = controller.get_service()
     room = controller.get_room_empty()
+    # Gia = "{:,.0f}".format(float(room[4])*1000)
+
 
     return render_template('home.html' , typeroom = typeroom , services = service , rooms = room)
 
 @app.route('/rooms')
 def rooms():
-    controller = Phong_controller
+    controller = Phong_controller()
     room = controller.get_room()
     return render_template('rooms.html', rooms = room)
 
 @app.route('/events')
 def events():
-    controller = tour_controller
+    controller = tour_controller()
     tour = controller.get_tour()
 
     return render_template('events.html' ,tours = tour)
@@ -63,7 +65,7 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def process_login():
-    controller = login_controller
+    controller = login_controller()
 
     accounts = controller.get_login()
     username = request.form['username'].upper()
@@ -93,8 +95,8 @@ def signup():
 
 @app.route('/signup', methods=['POST'])
 def process_signup():
-    logincontroller = login_controller
-    signupcontroller = signup_controller
+    logincontroller = login_controller()
+    signupcontroller = signup_controller()
 
     accounts = logincontroller.get_login()
 
@@ -134,12 +136,16 @@ def process_signup():
         
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    controller = profile_controller()
+    MAKH = session['username']
+    CMND = controller.get_idcus(MAKH)
+    profile = controller.get_profile(CMND)
+    return render_template('profile.html', profile = profile)
 
 @app.route('/room_item')
 def room_item():
     type_id = base64.b64decode(request.args.get('TypeId')).decode('utf-8')
-    controller = Phong_controller
+    controller = Phong_controller()
     rooms = controller.get_typeroom_item(type_id)
     name_type = controller.get_nametype(type_id)
     # rooms[11] = "{:,.0f} đ".format(float(rooms[11])*1000)
@@ -148,8 +154,8 @@ def room_item():
 @app.route('/booking')
 def booking():
     room_id = base64.b64decode(request.args.get('RoomID')).decode('utf-8')
-    Phongcontroller = Phong_controller
-    bookingcontroller =booking_controller
+    Phongcontroller = Phong_controller()
+    bookingcontroller = booking_controller()
 
     room = Phongcontroller.get_room_item(room_id)
     session['room_id'] = room[0]
@@ -169,7 +175,7 @@ def booking():
 @app.route('/booking', methods=['POST'])
 def process_booking():
     room_id = base64.b64decode(request.args.get('RoomID')).decode('utf-8')
-    controller = Phong_controller
+    controller = Phong_controller()
     room = controller.get_room_item(room_id)
     tiennghi = room[4].split(", ")
     Gia = "{:,.0f} đ".format(float(room[11])*1000)
@@ -225,7 +231,7 @@ def process_booking():
 def pay():
     data = temp_data
     room_id = session['room_id']
-    controller = Phong_controller
+    controller = Phong_controller()
     room = controller.get_room_item(room_id)
     tiennghi = room[4].split(", ")
     Gia = "{:,.0f} đ".format(float(room[11])*1000)
@@ -234,13 +240,12 @@ def pay():
     Tonggia = "{:,.0f} đ".format(float(room[11] * data['count-date']) *1000)
     return render_template('pay.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaDC = GiaDC ,GiaCL = GiaCL,Tonggia = Tonggia)
 
-
 @app.route('/pay', methods=['POST'])
 def process_pay():
     room_id = session['room_id']
     data = temp_data
-    Phongcontroller = Phong_controller
-    bookingcontroller = booking_controller
+    Phongcontroller = Phong_controller()
+    bookingcontroller = booking_controller()
     cus_id = bookingcontroller.get_idcus(session['username'])
     room = Phongcontroller.get_room_item(room_id)
     tiennghi = room[4].split(", ")
@@ -393,7 +398,7 @@ def process_pay():
 def success():
     room_id = session['room_id']
 
-    controller = Phong_controller
+    controller = Phong_controller()
     room = controller.get_room_item(room_id)
     tiennghi = room[4].split(", ")
 
@@ -412,7 +417,7 @@ def success():
 
 @app.route('/admin')
 def admin():
-    roomcontroller = admin_controller
+    roomcontroller = admin_controller()
     rooms = roomcontroller.get_room()
     my_list = []
     for room in rooms:
@@ -424,3 +429,19 @@ def admin():
         my_list.append(room_list)  # chuyển đổi lại từ list sang tuple
 
     return render_template('home_admin.html', rooms=my_list)
+
+@app.route('/detail')
+def detail():
+    room_id = base64.b64decode(request.args.get('RoomID')).decode('utf-8')
+    controller = Phong_controller()
+
+    room = controller.get_room_item(room_id)
+    Gia = "{:,.0f}".format(float(room[11])*1000)
+    Tinhtrang = ""
+    if room[2] == 0:
+        Tinhtrang = "Phòng trống"
+    if room[2] == 1:
+        Tinhtrang = "Phòng đã đặt"
+    return render_template('detail.html', room = room, Gia = Gia, Tinhtrang = Tinhtrang)
+
+    
