@@ -21,8 +21,15 @@ class Phong_controller():
         result = execute_query('QLKhachSan', 'a' ,sql)
         return result
     
-    def get_room(self):
+    def get_Allroom():
         sql = "select * from phong ph,loaiphong lp where lp.MALOAIPHONG = ph.LOAIP"
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result
+    
+    def get_room(page=1, per_page=6):
+        offset = ((page - 1) * per_page)+1
+        per_page = per_page*page
+        sql = "SELECT * FROM ( SELECT ph.*, ROWNUM rnum FROM phong ph WHERE ROWNUM <= '{0}' ) WHERE rnum >= '{1}'".format(per_page,offset)
         result = execute_query('QLKhachSan', 'a' ,sql)
         return result
 
@@ -46,6 +53,7 @@ class login_controller():
     def get_login(self):
         sql = "select * from taikhoan"
         result = execute_query('QLKhachSan', 'a' ,sql)
+        print(result)
         return result
     
 class signup_controller():

@@ -4,6 +4,9 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import base64
 from datetime import datetime
 import re
+from flask_paginate import Pagination, get_page_parameter
+
+import math
 
 import qrcode
 from io import BytesIO
@@ -40,9 +43,22 @@ def home():
 
 @app.route('/rooms')
 def rooms():
-    controller = Phong_controller()
-    room = controller.get_room()
-    return render_template('rooms.html', rooms = room)
+    controller = Phong_controller
+    page = request.args.get('page', default=1, type=int)
+    print(page)
+    rooms = controller.get_room(page=page, per_page=6)
+    size =controller.get_Allroom()
+    # pagination = rooms.paginate(page=page, per_page=per_page)
+
+    return render_template('rooms.html', rooms=rooms, pagination=6,size=math.ceil(len(size)/6),currentPage=page )
+# @app.route('/rooms')
+# def rooms():
+#     controller = Phong_controller
+#     page = request.args.get('page', default=1, type=int)
+#     per_page = request.args.get('per_page', default=6, type=int)
+#     rooms = controller.get_room(page, per_page)
+#     return render_template('rooms.html', rooms=rooms)
+
 
 @app.route('/events')
 def events():
@@ -163,7 +179,7 @@ def booking():
     Gia = "{:,.0f} đ".format(float(room[11])*1000)
     GiaDC = "{:,.0f} đ".format(float(room[11] * 0.3)*1000)
     GiaCL = "{:,.0f} đ".format(float(room[11] * 0.7)*1000)
-
+    
  
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -385,10 +401,10 @@ def process_pay():
         else:
             mapdp = '098' + str(countpdp + 1)     
 
-
+    datestart = "TO_DATE('"+data['date-start'] + "', 'DD/MM/YYYY')"
     tiendc = int(room[11] * data['count-date'] * 0.3)
-    result3, er3 = bookingcontroller.save_booking(mapdp, data['date-start'], data['count-date'], data['count'], tiendc, room[0], cus_id, matt)
-
+    result3, er3 = bookingcontroller.save_booking(mapdp, datestart, data['count-date'], data['count'], tiendc, room[0], cus_id, matt)
+    
     if er3 == 0:
         return render_template('success.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaCL = GiaCL, mapdp = mapdp, GiaDC = GiaDC, Tonggia = Tonggia)
         

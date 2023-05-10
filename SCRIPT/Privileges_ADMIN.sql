@@ -1,5 +1,5 @@
 --Admin
---drop USER QLKHACHSAN CASCADE;
+--drop USER QLKhachSan CASCADE;
 --Tạo user QLKhachSan như ADMIN để quản lý hệ thống khách sạn
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE USER QLKhachSan IDENTIFIED BY a;
