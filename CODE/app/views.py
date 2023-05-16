@@ -1,4 +1,4 @@
-from app.controller import Phong_controller, tour_controller, login_controller, signup_controller, booking_controller, admin_controller, profile_controller
+from app.controller import Phong_controller, tour_controller, login_controller, signup_controller, booking_controller, admin_controller, profile_controller, account
 from flask import Flask, render_template, request, redirect, url_for, session
 # from flask_login import login_required, LoginManager, UserMixin, login_user
 import base64
@@ -29,14 +29,13 @@ def base64encode(value):
 
 app.jinja_env.filters['b64encode'] = base64encode
 
-@app.route('/home')
+@app.route('/')
 def home():
     controller = Phong_controller()
 
     typeroom = controller.get_typeroom()
     service = controller.get_service()
     room = controller.get_room_empty()
-    # Gia = "{:,.0f}".format(float(room[4])*1000)
 
 
     return render_template('home.html' , typeroom = typeroom , services = service , rooms = room)
@@ -47,10 +46,11 @@ def rooms():
     page = request.args.get('page', default=1, type=int)
     print(page)
     rooms = controller.get_room(page=page, per_page=6)
-    size =controller.get_Allroom()
+   
+    size = controller.get_Allroom()
     # pagination = rooms.paginate(page=page, per_page=per_page)
 
-    return render_template('rooms.html', rooms=rooms, pagination=6,size=math.ceil(len(size)/6),currentPage=page )
+    return render_template('rooms.html', rooms=rooms, pagination=6,size=math.ceil(len(size)/6),currentPage = page)
 # @app.route('/rooms')
 # def rooms():
 #     controller = Phong_controller
@@ -82,11 +82,15 @@ def login():
 @app.route('/login', methods=['POST'])
 def process_login():
     controller = login_controller()
-
     accounts = controller.get_login()
     username = request.form['username'].upper()
     password = request.form['password'].upper()
-
+    if username == "ADMIN" and password == "ADMIN":
+        return redirect(url_for('admin_account'))
+    
+    if username == "NHANVIEN" and password == "1":
+        return redirect(url_for('admin_room'))
+    
     for account in accounts:
         if account[0]== username and account[1] == password:
             session['username'] = username
@@ -96,7 +100,7 @@ def process_login():
     message = "Thông tin không hợp lệ!"
     return render_template('login.html', message=message)
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout')
 def logout():
     # Xóa thông tin đăng nhập trong session
     session.pop('username', None)
@@ -156,7 +160,30 @@ def profile():
     MAKH = session['username']
     CMND = controller.get_idcus(MAKH)
     profile = controller.get_profile(CMND)
+
     return render_template('profile.html', profile = profile)
+
+
+@app.route('/profile', methods=['POST'])
+def process_profile():
+    controller = profile_controller()
+    MAKH = session['username']
+    CMND = controller.get_idcus(MAKH)
+
+    # id = request.form['cmnd']
+    name = request.form['name']
+    phone =request.form['phone']
+    email = request.form['email']
+    diachi = request.form['diachi']
+    shk = request.form['shk']
+    result, er = controller.update_profile(name, diachi, phone, email, shk, CMND)
+    profile = controller.get_profile(CMND)
+    if er == 0:
+        return render_template('profile.html', profile = profile)
+    else:
+        message = "Thông tin không hợp lệ"
+        return render_template('profile.html', profile = profile, message = message)
+
 
 @app.route('/room_item')
 def room_item():
@@ -164,15 +191,18 @@ def room_item():
     controller = Phong_controller()
     rooms = controller.get_typeroom_item(type_id)
     name_type = controller.get_nametype(type_id)
-    # rooms[11] = "{:,.0f} đ".format(float(rooms[11])*1000)
-    return render_template('rooms_item.html', rooms = rooms, name_type = name_type)
+    gia =[]
+    for i in rooms:
+        gia = "{:,.0f} đ".format(float(i[11])*1000)
+    
+    return render_template('rooms_item.html', rooms = rooms, name_type = name_type, gia =gia)
 
 @app.route('/booking')
 def booking():
     room_id = base64.b64decode(request.args.get('RoomID')).decode('utf-8')
     Phongcontroller = Phong_controller()
     bookingcontroller = booking_controller()
-
+    
     room = Phongcontroller.get_room_item(room_id)
     session['room_id'] = room[0]
     tiennghi = room[4].split(", ")
@@ -192,6 +222,11 @@ def booking():
 def process_booking():
     room_id = base64.b64decode(request.args.get('RoomID')).decode('utf-8')
     controller = Phong_controller()
+    bookingcontroller = booking_controller()
+
+    cus_id = bookingcontroller.get_idcus(session['username'])
+    cus_info = bookingcontroller.get_infocus(cus_id)
+
     room = controller.get_room_item(room_id)
     tiennghi = room[4].split(", ")
     Gia = "{:,.0f} đ".format(float(room[11])*1000)
@@ -221,14 +256,12 @@ def process_booking():
 
     if len(date_start) == 0 or len(date_end) == 0:
         message = "Vui lòng chọn ngày!"
-        return render_template('booking.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaDC = GiaDC ,GiaCL =GiaCL, message = message)
+        return render_template('booking.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaDC = GiaDC ,GiaCL = GiaCL, message = message, cus_info = cus_info)
+    
     
     if date_objs >= date_obje:
         message = "Số ngày đặt phòng không hợp lệ"
-        return render_template('booking.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaDC = GiaDC ,GiaCL =GiaCL, message = message)
-    
-        message = "Xác nhận email không trùng khớp"
-        return render_template('booking.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaDC = GiaDC ,GiaCL =GiaCL, message = message)
+        return render_template('booking.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaDC = GiaDC ,GiaCL = GiaCL, message = message, cus_info = cus_info)
     
     temp_data['date-start'] =  date_start_new
     temp_data['count-date'] =  num_days
@@ -401,7 +434,7 @@ def process_pay():
         else:
             mapdp = '098' + str(countpdp + 1)     
 
-    datestart = "TO_DATE('"+data['date-start'] + "', 'DD/MM/YYYY')"
+    datestart = data['date-start']
     tiendc = int(room[11] * data['count-date'] * 0.3)
     result3, er3 = bookingcontroller.save_booking(mapdp, datestart, data['count-date'], data['count'], tiendc, room[0], cus_id, matt)
     
@@ -431,21 +464,6 @@ def success():
 
     return render_template('success.html' , room_item = room , tiennghi = tiennghi, Gia =Gia, GiaDC = GiaDC ,GiaCL = GiaCL, Tonggia = Tonggia)
 
-@app.route('/admin')
-def admin():
-    roomcontroller = admin_controller()
-    rooms = roomcontroller.get_room()
-    my_list = []
-    for room in rooms:
-        room_list = list(room)  # chuyển đổi từ tuple sang list
-        if room_list[2] == 0:
-            room_list[2] = 'Phòng trống'
-        elif room_list[2] == 1:
-            room_list[2] = 'Phòng đã đặt'
-        my_list.append(room_list)  # chuyển đổi lại từ list sang tuple
-
-    return render_template('home_admin.html', rooms=my_list)
-
 @app.route('/detail')
 def detail():
     room_id = base64.b64decode(request.args.get('RoomID')).decode('utf-8')
@@ -460,4 +478,106 @@ def detail():
         Tinhtrang = "Phòng đã đặt"
     return render_template('detail.html', room = room, Gia = Gia, Tinhtrang = Tinhtrang)
 
+@app.route('/room_type_details')
+def room_type_details():
+    type_id = base64.b64decode(request.args.get('TypeId')).decode('utf-8')
+    controller = Phong_controller()
+    type_item = controller.get_typeroom_id(type_id)
+    name_type = controller.get_nametype(type_id).upper()
+    return render_template('detail_type_room.html', rooms = rooms, name_type = name_type, type_item = type_item)
+
+@app.route('/admin_room')
+def admin_room():
+    roomcontroller = admin_controller()
+    rooms = roomcontroller.get_room()
+    my_list = []
+    for room in rooms:
+        room_list = list(room)  # chuyển đổi từ tuple sang list
+        if room_list[2] == 0:
+            room_list[2] = 'Phòng trống'
+        elif room_list[2] == 1:
+            room_list[2] = 'Phòng đã đặt'
+        my_list.append(room_list)  # chuyển đổi lại từ list sang tuple
+
+    return render_template('admin_room.html', rooms=my_list)
+
+@app.route('/admin_room_note')
+def admin_room_note():
+    controller = admin_controller()
+    phieu = controller.get_room_note()
+    return render_template('admin_room_note.html', phieus = phieu)
+
+@app.route('/delete_note')
+def delete_note():
+    note = base64.b64decode(request.args.get('NoteID')).decode('utf-8')
+    controller = admin_controller()
+    result, er = controller.delete_room_note(note)
+    if er == 0:
+        phieu = controller.get_room_note()
+        return render_template('admin_room_note.html', phieus = phieu)
+    else:
+        return f'<body>thatbai</body>'
     
+
+@app.route('/delete_room')
+def delete_room():
+    note = base64.b64decode(request.args.get('Room_ID')).decode('utf-8')
+    controller = admin_controller()
+    result, er = controller.delete_room(note)
+    if er == 0:
+        return redirect(url_for('admin_room'))
+    else:
+        return f'<body>thatbai</body>'
+    
+@app.route('/add_room')
+def add_room():
+    return render_template('admin_add_room.html')
+
+@app.route('/add_room', methods=['POST'])
+def process_add_room():
+    controller = admin_controller()
+    loaiphong = request.form['loaiphong'] 
+    linkanh = request.form['linkanh'] 
+    tiennghi = request.form['tiennghi'] 
+    quydinhphong = request.form['quydinhphong'] 
+    tinhtrang = request.form['tinhtrang'] 
+    toida = request.form['toida'] 
+    maphong = request.form['maphong']
+
+    result, er = controller.add_room(maphong, toida, tinhtrang, quydinhphong, tiennghi, loaiphong, linkanh)
+    if er == 0:
+        return redirect(url_for('admin_room'))
+    else :
+        return f'<body>thatbai</body>'
+    
+@app.route('/add_note')
+def add_note():
+    return render_template('admin_add_note.html')
+
+@app.route('/admin_account')
+def admin_account():
+    controller = account()
+    accounts = controller.get_accounts()
+    return render_template('admin_account.html', accounts = accounts)
+
+@app.route('/add_note', methods=['POST'])
+def process_add_note():
+    controller = admin_controller()
+
+    maphieu = request.form['maphieu']
+    ngayden = request.form['ngayden']
+    sodemluutru = request.form['sodemluutru']
+    yeucaudacbiet = request.form['yeucaudacbiet']
+    soluongnguoi = request.form['soluongnguoi']
+    sotiendatcoc = request.form['sotiendatcoc']
+    maphong = request.form['maphong']
+    makhachhang = request.form['makhachhang']
+    mathanhtoan = request.form['mathanhtoan']
+
+    result, er = controller.add_note(maphieu, ngayden, sodemluutru, yeucaudacbiet, soluongnguoi, sotiendatcoc, maphong, makhachhang, mathanhtoan)
+    if er == 0:
+        return redirect(url_for('admin_room_note'))
+    else :
+        return f'<body>thatbai</body>'
+
+

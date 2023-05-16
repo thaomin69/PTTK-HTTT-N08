@@ -34,8 +34,9 @@
                       </li>
                     </ul>
                   </li>
-                  <li><a href="{{ url_for('events')}}">Sự kiện</a></li>
-                  <li><a href="{{ url_for('about')}}">Thông tin</a></li>
+                    <li><a href="{{ url_for('events')}}">Sự kiện</a></li>
+                
+              
                   <li><a href="{{ url_for('contact')}}">Liên hệ</a></li>
                 </ul>
                 
@@ -50,6 +51,16 @@
     {% if session.logged_in %}
   <div class="btn-login"><i class="fa-solid fa-magnifying-glass"></i></div>
   <a class="btn-icon" href="{{ url_for('profile')}}"><i class="fa-regular fa-user"></i></a>
+  <div class = "block_profile">
+    <a href = "" class="profile-link">Trả phòng</a>
+    <a href = "" class="profile-link">Lịch sử đặt phòng</a>
+    <a href = "" class="profile-link">Quản lý hành lý</a>
+    <a href = "" class="profile-link">Đăng ký vận chuyển</a>
+    <a href = "" class="profile-link">Tra cứu tour du lịch</a>
+    <a href = "" class="profile-link">Tra cứu dịch vụ</a>
+    <a href = "" class="profile-link">Đăng ký vận chuyển</a>
+    <a href = "{{ url_for('logout')}}" class="profile-link">Đăng xuất</a>
+  </div>
   <form>
     <input type="text" class="expandable" placeholder="Tìm kiếm...">
   </form>
@@ -88,4 +99,27 @@ var currentUrl = window.location.href;
             navLinks[i].parentNode.classList.add('active');
         }
     }
+</script>
+<script>
+// Lấy thẻ a và div cần sử dụng
+const btnIcon = document.querySelector('.btn-icon');
+const blockProfile = document.querySelector('.block_profile');
+
+// Thêm sự kiện hover vào nút btn-icon
+btnIcon.addEventListener('mouseover', () => {
+  // Hiển thị block_profile
+  blockProfile.style.display = 'block';
+});
+
+// Thêm sự kiện hover-out vào block_profile
+blockProfile.addEventListener('mouseleave', () => {
+  // Ẩn block_profile
+  blockProfile.style.display = 'none';
+});
+
+// Thêm sự kiện hover vào block_profile
+blockProfile.addEventListener('mouseover', () => {
+  // Hiển thị block_profile
+  blockProfile.style.display = 'block';
+});
 </script>

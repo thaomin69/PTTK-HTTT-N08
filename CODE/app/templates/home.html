@@ -2,6 +2,20 @@
 
 {% block content %}
 <div class = "backgourd-header">
+
+  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+          <img src="../static/images/banner_tour.jpg" class="d-block w-50" style = "height:200px;object-fit: cover; margin:120px auto;" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="../static/images/banner_tour_2.jpg" class="d-block w-50" style = "height:200px;object-fit: cover; margin:120px auto;" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="../static/images/banner_tour_3.jpg" class="d-block w-50" style = "height:200px;object-fit: cover; margin:120px auto;"  alt="...">
+      </div>
+    </div>
+  </div>
   <!-- <div class="slide-one-item home-slider owl-carousel">
     <div class="site-blocks-cover overlay" style="background-image: url(static/images/hero_1.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
       <div class="container">
@@ -52,12 +66,12 @@
       {% for room in typeroom %}
       <div class="col-md-6 col-lg-4 mb-5">
         <div class="hotel-room text-center">
-          <a class="d-block mb-0 thumbnail"><img src="{{room[3]}}" alt="Image" class="img-fluid"></a>
+          <a class="d-block mb-0 thumbnail"><img src="{{room[3]}}" alt="Image" class="img-fluid" style = "width:350px;height:200px;object-fit: cover;"></a>
           <div class="hotel-room-body">
             <h3 class="heading mb-0"><a href="#">{{ room[1] }}</a></h3>
             <strong class="price" style = "color:rgb(255, 94, 31);">{{room[4]| int}},000 VND</strong>
           </div>
-          <a type="button" class="btn btn-primary"style = "border-radius:0;   border:1px #858585 solid; margin-bottom: 20px; background-color:#fff;color:#000000">Chi tiết</a>
+          <a href="{{ url_for('room_type_details', TypeId=room[0] | b64encode) }}"  type="button" class="btn btn-primary"style = "border-radius:0;   border:1px #858585 solid; margin-bottom: 20px; background-color:#fff;color:#000000">Chi tiết</a>
           <a href="{{ url_for('room_item', TypeId=room[0] | b64encode) }}"  class="btn btn-primary" style = "border-radius:0; margin-bottom: 20px;">Xem phòng</a>
         </div>
       </div>
@@ -189,7 +203,7 @@
   <div class="container" >
     <div class="row">
       <div class="col-md-6 mx-auto text-center mb-5 section-heading">
-        <h2 >Thông tin phòng</h2>
+        <h2 >Thông tin khách sạn</h2>
       </div>
     </div>
 
@@ -203,143 +217,17 @@
               <img src="images/img_1.jpg" alt="" class="img-fluid">
             </a>
           </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
+          <h2 class="heading mb-0"><a href="#">StayNTouch</a></h2>
           <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#" style = "color:#248eda">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
+          <p>stayNTouch là một khách sạn tuyệt vời với các dịch vụ cao cấp và không gian thoải mái. Nằm trong khu vực đẹp và yên tĩnh, khách sạn có nhiều tiện nghi để đáp ứng nhu cầu của du khách. Chúng tôi cam kết mang đến trải nghiệm đáng nhớ cho khách hàng.</p>
         </div>
       
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_2.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#" style = "color:#248eda">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-      
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_3.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#" style = "color:#248eda">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_1.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#" style = "color:#248eda">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-      
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_2.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-      
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_3.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-        
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_1.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-      
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_2.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-      
-        <div class="media-with-text p-md-4">
-          <div class="img-border-sm mb-4">
-            <a href="#" class="popup-vimeo image-play">
-              <img src="images/img_3.jpg" alt="" class="img-fluid">
-            </a>
-          </div>
-          <h2 class="heading mb-0"><a href="#">Lorem Ipsum Dolor Sit Amet</a></h2>
-          <span class="mb-3 d-block post-date">Dec 20th, 2018 &bullet; By <a href="#">Admin</a></span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolores culpa qui aliquam placeat nobis veritatis tempora natus rerum obcaecati.</p>
-        </div>
-
     </div>
   </div>
 </div>
 
-<div class="py-5 quick-contact-info">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 text-center">
-        <div>
-          <span class="icon-room text-white h2 d-block"></span>
-          <h2>Location</h2>
-          <p class="mb-0"><a href = "https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+Khoa+h%E1%BB%8Dc+T%E1%BB%B1+nhi%C3%AAn+-+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+Qu%E1%BB%91c+gia+TP.HCM/@13.1212379,108.3564089,12z/data=!4m6!3m5!1s0x31752f1c06f4e1dd:0x43900f1d4539a3d!8m2!3d10.7628356!4d106.6824824!16s%2Fm%2F02r129r"></a> 01 Nguyễn Văn Cừ, Quận 5, TP.HCM <br></p>
-          <div id="map" onload="initMap()" style="width: 100%; height: 200px;"></div>
-       
-        </div>
-      </div>
-      <div class="col-md-4 text-center">
-        <div>
-          <span class="icon-clock-o text-white h2 d-block"></span>
-          <h2>Service Times</h2>
-          <p class="mb-0">Wednesdays at 6:30PM - 7:30PM <br>
-          Fridays at Sunset - 7:30PM <br>
-          Saturdays at 8:00AM - Sunset</p>
-        </div>
-      </div>
-      <div class="col-md-4 text-center">
-        <div>
-          <span class="icon-comments text-white h2 d-block"></span>
-          <h2>Get In Touch</h2>
-          <p class="mb-0">Email: info@yoursite.com <br>
-          Phone: (123) 3240-345-9348 </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script src="https://maps.googleapis.com/maps/api/js?key=<YOUR_API_KEY>"></script>
-  <script>
-    function initMap() {
-      var mapDiv = document.getElementById('map');
-      var map = new google.maps.Map(mapDiv, {
-        center: {lat: 10.8231, lng: 106.6297},
-        zoom: 12
-      });
-    }
-  </script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
 {% endblock %}

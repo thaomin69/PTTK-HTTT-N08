@@ -42,13 +42,18 @@ class Phong_controller():
         sql = "select TENLOAIPHONG from LoaiPhong lp where lp.MALOAIPHONG = '{0}'".format(malp)
         result = execute_query('QLKhachSan', 'a' ,sql)
         return result[0][0]
+    
+    def get_typeroom_id(self, malp):
+        sql = "select * from loaiphong lp where lp.MALOAIPHONG = '{0}'".format(malp)
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result[0]
 
 class tour_controller():
     def get_tour(self):
         sql = "select * from TourDuLich"
         result = execute_query('QLKhachSan', 'a' ,sql)
-        return result
-    
+        return result    
+
 class login_controller():
     def get_login(self):
         sql = "select * from taikhoan"
@@ -143,6 +148,31 @@ class admin_controller():
         result = execute_query('QLKhachSan', 'a' ,sql)
         return result
     
+    def get_room_note(self):
+        sql ="SELECT * FROM Phieudatphong"
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result
+    
+    def delete_room(self, maphong):
+        sql ="DELETE FROM PHONG where MAPHONG = '{0}'".format(maphong)
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result
+
+    def delete_room_note(self, maphong):
+        sql ="DELETE FROM Phieudatphong where MAPDP = '{0}'".format(maphong)
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result
+    
+    def add_room(self, maphong, toida, tinhtrang, quydinhphong, tiennghi, loaip, image):
+        sql ="INSERT INTO PHONG VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')".format(maphong, toida, tinhtrang, quydinhphong, tiennghi, loaip, image)
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result
+    
+    def add_note(self, maphieu, ngayden, sodemluutru, yeucaudacbiet, soluongnguoi, sotiendatcoc, maphong, makh, matt):
+        sql ="INSERT INTO PHIEUDATPHONG VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}','', '{6}', '{7}', '{8}')".format(maphieu, ngayden, sodemluutru, yeucaudacbiet, soluongnguoi, sotiendatcoc, maphong, makh, matt)
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result
+    
 class profile_controller():
     def get_idcus(self, username):
         sql = "SELECT CMND FROM khachhang where USERNAME = '{0}'".format(username)
@@ -153,3 +183,14 @@ class profile_controller():
         sql = "SELECT * FROM KHACHHANG WHERE CMND = '{0}'".format(MAKH)
         result = execute_query('QLKhachSan', 'a' ,sql)
         return result[0]
+    
+    def update_profile(self, name, address, phone, email, shk, id):
+        sql = "UPDATE KHACHHANG SET TENKH = '{0}', DIACHI = '{1}', SDT = '{2}', EMAIL = '{3}', HOCHIEU = '{4}' where CMND = '{5}'".format(name, address, phone, email, shk, id)
+        result, er = execute_query('QLKhachSan', 'a' ,sql)
+        return result, er
+    
+class account():
+    def get_accounts(selft):
+        sql = "select * from taikhoan"
+        result = execute_query('QLKhachSan', 'a' ,sql)
+        return result
